@@ -1,6 +1,6 @@
 package com.dave.todos.usersservice.api.v1.mapper;
 
-import com.dave.todos.usersservice.api.v1.model.UserDto;
+import com.dave.todos.usersservice.api.v1.model.UserDTO;
 import com.dave.todos.usersservice.domain.User;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ public class UserMapperTest {
         user.setCountry(COUNTRY);
 
         // when
-        UserDto userDto = userMapper.userToUserDto(user);
+        UserDTO userDto = userMapper.userToUserDto(user);
 
         // then
         assertEquals(FIRST_NAME, userDto.getFirstName());
