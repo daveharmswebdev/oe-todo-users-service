@@ -1,6 +1,7 @@
 package com.dave.todos.usersservice.services;
 
 import com.dave.todos.usersservice.api.v1.mapper.UserMapper;
+import com.dave.todos.usersservice.api.v1.mapper.UserMapperImpl;
 import com.dave.todos.usersservice.api.v1.model.UserDTO;
 import com.dave.todos.usersservice.domain.User;
 import com.dave.todos.usersservice.repositories.UserRepository;
@@ -30,6 +31,7 @@ class UserServiceImplTest {
     private static final String COUNTRY = "Country";
 
     UserService userService;
+    UserMapper userMapper;
 
     @Mock
     UserRepository userRepository;
@@ -38,7 +40,8 @@ class UserServiceImplTest {
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
 
-        userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository);
+        userMapper = new UserMapperImpl();
+        userService = new UserServiceImpl(userMapper, userRepository);
     }
 
     @Test

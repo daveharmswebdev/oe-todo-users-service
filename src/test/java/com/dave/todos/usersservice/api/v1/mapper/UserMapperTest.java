@@ -2,6 +2,7 @@ package com.dave.todos.usersservice.api.v1.mapper;
 
 import com.dave.todos.usersservice.api.v1.model.UserDTO;
 import com.dave.todos.usersservice.domain.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +18,12 @@ public class UserMapperTest {
     private static final String REGION = "Region";
     private static final String COUNTRY = "Country";
 
-    UserMapper userMapper = UserMapper.INSTANCE;
+    UserMapper userMapper;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        userMapper = new UserMapperImpl();
+    }
 
     @Test
     public void userToUserDto() throws Exception {
@@ -33,7 +39,7 @@ public class UserMapperTest {
         user.setCountry(COUNTRY);
 
         // when
-        UserDTO userDto = userMapper.userToUserDto(user);
+        UserDTO userDto = this.userMapper.userToUserDto(user);
 
         // then
         assertEquals(FIRST_NAME, userDto.getFirstName());

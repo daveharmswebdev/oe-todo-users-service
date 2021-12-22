@@ -4,10 +4,12 @@ import com.dave.todos.usersservice.api.v1.mapper.UserMapper;
 import com.dave.todos.usersservice.api.v1.model.UserDTO;
 import com.dave.todos.usersservice.domain.User;
 import com.dave.todos.usersservice.repositories.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
                     UserDTO userDTO = userMapper.userToUserDto(user);
                     userDTO.setUserUrl("/api/v1/todos/" + user.getId());
                     return userDTO;
-                }).orElseThrow(RuntimeException::new);
+                }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
