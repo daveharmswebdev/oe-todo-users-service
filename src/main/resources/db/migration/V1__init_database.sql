@@ -1,4 +1,25 @@
-INSERT INTO USERS (first_name, last_name, phone, email, address,postal_zip,region,country)
+drop table if exists users;
+drop table if exists hibernate_sequence;
+
+CREATE TABLE users (
+   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+   first_name varchar(255) NULL,
+   last_name varchar(255) NULL,
+   phone varchar(100) NULL,
+   email varchar(255) NULL,
+   address varchar(255) NULL,
+   postal_zip varchar(10) NULL,
+   region varchar(50) NULL,
+   country varchar(100) NULL
+) engine = InnoDB;
+
+create table hibernate_sequence (
+    next_val bigint
+) engine=InnoDB;
+
+insert into hibernate_sequence values ( 1 );
+
+INSERT INTO users (first_name, last_name, phone, email, address,postal_zip,region,country)
 VALUES
     ('Ross','William','1-687-888-7839','vel.arcu@protonmail.net','6871 Donec Avenue','30064','North Island','Peru'),
     ('Dennis','Berger','1-787-828-2931','id.ante.nunc@aol.ca','9463 Ut St.','261826','Newfoundland and Labrador','Vietnam'),
