@@ -2,8 +2,13 @@ package com.dave.todos.usersservice.services;
 
 import com.dave.todos.usersservice.api.v1.mapper.UserMapper;
 import com.dave.todos.usersservice.api.v1.model.UserDTO;
+import com.dave.todos.usersservice.api.v2.model.LastNameDTO;
 import com.dave.todos.usersservice.domain.User;
 import com.dave.todos.usersservice.repositories.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +37,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> getUsersPage(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<UserDTO> getUserPage(int pageSize, int page) {
+        Pageable pageable = PageRequest.ofSize(pageSize).withPage(page);
+
+        return this.getUsersPage(pageable).map(userMapper::userToUserDto);
+    }
+
+    @Override
+    public Page<UserDTO> getUserPageByLastName(int pageSize, int page, String lastName) {
+        Pageable pageable = PageRequest.ofSize(pageSize).withPage(page).withSort(Sort.by("lastName"));
+
+        return userRepository.findByLastNameContainingIgnoreCase(pageable, lastName).map(userMapper::userToUserDto);
+    }
+
+    @Override
     public UserDTO getUserById(Long id) {
 
         return userRepository.findById(id)
@@ -53,6 +77,16 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.userDtoToUser(userDto);
         user.setId(id);
         return saveAndReturnDto(user);
+    }
+
+    @Override
+    public List<LastNameDTO> getAllLastNames(String lastName) {
+        Pageable pageable = PageRequest.ofSize(10).withPage(0).withSort(Sort.by("lastName"));
+
+        return userRepository
+                .findByLastNameContainingIgnoreCase(pageable, lastName)
+                .map(userMapper::userToLastDTO)
+                .getContent();
     }
 
     @Override

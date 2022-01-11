@@ -2,6 +2,7 @@ package com.dave.todos.usersservice.api.v1.mapper;
 
 
 import com.dave.todos.usersservice.api.v1.model.UserDTO;
+import com.dave.todos.usersservice.api.v2.model.LastNameDTO;
 import com.dave.todos.usersservice.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,4 +15,7 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     User userDtoToUser(UserDTO userDto);
+
+    @Mapping(target = "id")
+    LastNameDTO userToLastDTO(User user);
 }
